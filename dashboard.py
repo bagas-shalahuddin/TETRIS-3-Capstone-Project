@@ -210,6 +210,9 @@ with stunting:
     )
     st.markdown("- Secara umum, di semua kabupaten/kota tingkat stunting pada balita di Jawa Barat mengalami penurunan di rentang 2015-2019, tapi mengalami peningkatan di tahun 2020")
     st.markdown("- Kota Tasikmalaya menjadi kota dengan persentase tingkat stunting pada balita paling tinggi di sepanjang tahun, berbeda dengan Kota Depok yang memiliki persentase tingkat stunting pada balita paling rendah")
+st.markdown(
+    "<h3>Analisis Korelasi Kemiskinan dan Balita Stunting di Jawa Barat</h3>", unsafe_allow_html=True
+)
 
 # Create a Streamlit selectbox for choosing the Kabupaten
 selected_kabupaten = st.selectbox('Select Kabupaten', pers_kemiskinan.columns)
@@ -243,3 +246,10 @@ avg_r = np.mean(np.corrcoef(pers_kemiskinan, pers_stunting))
 
 # Display the average correlation coefficient
 st.write(f'Average Correlation Coefficient: {avg_r}')
+
+st.write(
+    """Kesimpulan : 
+    """
+    )
+st.markdown("- Korelasi tingkat kemiskinan dan tingkat balita yang stunting adalah berkorelasi sedang")
+st.markdown("- Terjadi peningkatan untuk kemiskinan dan balita yang stunting di tahun 2020, yang mungkin dipengaruhi oleh perubahan sosial-ekonomi akibat pandemi COVID-19")
