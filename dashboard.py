@@ -105,8 +105,6 @@ with kemiskinan:
 with stunting:
     pers_stunting =  pd.read_csv("data/cleaned-data/Persentase Stunting 2015-2020.csv")
     #Persentase Stunting di Provinsi Jawa Barat
-    pers_stunting = pd.read_csv("data/cleaned-data/Persentase Kemiskinan 2015-2020.csv")
-
     pers_stunting['tahun'] = pd.to_datetime(pers_stunting['tahun']).dt.year
     pers_stunting.set_index('tahun', inplace=True)
 
@@ -213,22 +211,35 @@ with stunting:
     st.markdown("- Secara umum, di semua kabupaten/kota tingkat stunting pada balita di Jawa Barat mengalami penurunan di rentang 2015-2019, tapi mengalami peningkatan di tahun 2020")
     st.markdown("- Kota Tasikmalaya menjadi kota dengan persentase tingkat stunting pada balita paling tinggi di sepanjang tahun, berbeda dengan Kota Depok yang memiliki persentase tingkat stunting pada balita paling rendah")
 
+# Create a Streamlit selectbox for choosing the Kabupaten
+selected_kabupaten = st.selectbox('Select Kabupaten', pers_kemiskinan.columns)
 
-# # Create a Streamlit selectbox for choosing the year
-# selected_year = st.selectbox('Select Year', pers_kemiskinan.index)
+# Get the Kemiskinan and Stunting data for the selected Kabupaten
+kemiskinan_data = pers_kemiskinan[selected_kabupaten]
+stunting_data = pers_stunting[selected_kabupaten]
 
-# # Get the Kemiskinan and Stunting data for the selected year
-# kemiskinan_data = pers_kemiskinan.loc[selected_year]
-# stunting_data = pers_stunting.loc[selected_year]
+# Calculate the correlation coefficient (r)
+r = np.corrcoef(kemiskinan_data, stunting_data)[0, 1]
 
-# # Create a Streamlit scatter plot
-# st.pyplot(plt.figure(figsize=(8, 6)))
-# plt.scatter(kemiskinan_data, stunting_data)
+# Create a Streamlit scatter plot
+st.pyplot(plt.figure(figsize=(8, 6)))
+plt.scatter(kemiskinan_data, stunting_data)
 
-# # Set the plot title and labels
-# plt.title(f'Kemiskinan vs Stunting in {selected_year}')
-# plt.xlabel('Kemiskinan')
-# plt.ylabel('Stunting')
+# Set the plot title and labels
+plt.title(f'Kemiskinan vs Stunting di {selected_kabupaten}')
+plt.xlabel('Kemiskinan')
+plt.ylabel('Stunting')
 
-# # Show the plot
-# st.pyplot(plt)
+# Show the plot
+st.pyplot(plt)
+
+# Create a table to display the correlation coefficient
+table_data = {'Correlation Coefficient (r)': [r]}
+correlation_table = pd.DataFrame(table_data)
+st.table(correlation_table)
+
+# Calculate the average correlation coefficient for all Kabupaten
+avg_r = np.mean(np.corrcoef(pers_kemiskinan, pers_stunting))
+
+# Display the average correlation coefficient
+st.write(f'Average Correlation Coefficient: {avg_r}')
