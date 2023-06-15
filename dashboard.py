@@ -58,6 +58,7 @@ st.write(
     dapat dilakukan secara lebih efektif dan terarah, guna memastikan generasi muda Jawa Barat tumbuh dengan potensi optimal dan memiliki masa depan yang cerah.
     """
 )
+st.write("""Hipotesa: Meningkatnya kemiskinan akan berbanding lurus dengan peningkatan balita yang mengalami stunting, karena kurangnya asupan gizi yang diperoleh mereka""")
 st.markdown(
     "<h3>Tren Kemiskinan dan Balita Stunting di Jawa Barat Beserta Wawasan</h3>", unsafe_allow_html=True
 )
