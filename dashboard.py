@@ -215,12 +215,12 @@ st.markdown(
     "<h3>Analisis Korelasi Kemiskinan dan Balita Stunting di Jawa Barat</h3>", unsafe_allow_html=True
 )
 
-# Create a Streamlit selectbox for choosing the Kabupaten
-selected_kabupaten = st.selectbox('Select Kabupaten', pers_kemiskinan.columns)
+# Create a Streamlit selectbox for choosing the year
+selected_year = st.selectbox('Select Year', pers_kemiskinan.index.unique())
 
-# Get the Kemiskinan and Stunting data for the selected Kabupaten
-kemiskinan_data = pers_kemiskinan[selected_kabupaten]
-stunting_data = pers_stunting[selected_kabupaten]
+# Get the Kemiskinan and Stunting data for the selected year
+kemiskinan_data = pers_kemiskinan.loc[selected_year]
+stunting_data = pers_stunting.loc[selected_year]
 
 # Calculate the correlation coefficient (r)
 r = np.corrcoef(kemiskinan_data, stunting_data)[0, 1]
@@ -230,7 +230,7 @@ st.pyplot(plt.figure(figsize=(8, 6)))
 plt.scatter(kemiskinan_data, stunting_data)
 
 # Set the plot title and labels
-plt.title(f'Kemiskinan vs Stunting di {selected_kabupaten}')
+plt.title(f'Kemiskinan vs Stunting in {selected_year}')
 plt.xlabel('Kemiskinan')
 plt.ylabel('Stunting')
 
@@ -242,8 +242,8 @@ table_data = {'Correlation Coefficient (r)': [r]}
 correlation_table = pd.DataFrame(table_data)
 st.table(correlation_table)
 
-# Calculate the average correlation coefficient for all Kabupaten
-avg_r = np.mean(np.corrcoef(pers_kemiskinan, pers_stunting))
+# Calculate the average correlation coefficient for all years
+avg_r = np.mean(np.corrcoef(pers_kemiskinan.values.flatten(), pers_stunting.values.flatten()))
 
 # Display the average correlation coefficient
 st.write(f'Average Correlation Coefficient: {avg_r}')
